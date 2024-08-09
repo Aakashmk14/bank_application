@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Withdrawal</title>
+    <title>Check Balance</title>
     <style>
         body {
             font-family: Georgia, serif;
@@ -19,7 +19,7 @@
         .container {
             width: 50%;
             max-width: 400px; /* Optional: limit the max width */
-            background: rgba(255, 255, 255, 0.70); /* White with 35% opacity */
+            background: rgba(255, 255, 255, 0.80); /* White with 35% opacity */
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -27,31 +27,9 @@
             font-size: 1.5em;
         }
         h2 {
-            font-size: 2em;
+            font-size: 1.8em;
             text-align: center;
             margin-bottom: 20px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin: 10px 0 5px;
-        }
-        input {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        input[type="submit"] {
-            background-color:#161d24; 
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="submit"]:hover {
-            background-color: #161d24; /* Darker Lavender */
         }
          .dashboard {
             position: absolute;
@@ -59,7 +37,7 @@
             right: 20px;
             text-decoration: none;
             color: black;
-            padding: 5px 10px;
+            padding: 5px 15px;
             background-color:  #a8980a; /* Red */
             border-radius: 8px;
         }
@@ -70,17 +48,9 @@
 </head>
 <body>
     <div class="container">
-    <a href="customerDashboard.jsp"class="dashboard">Back to Dashboard</a>
-        <h2>Withdrawal</h2>
-        <form action="WithdrawServlet" method="post">
-            <label for="amount">Enter Amount</label>
-            <input type="number" id="amount" name="amount" required>
-
-            <input type="submit" value="Withdraw">
-        </form>
-        <div class="message">
-            <%= request.getAttribute("message") %>
-        </div>
+     <a href="customerDashboard.jsp"class="dashboard">Back to Dashboard</a>
+        <h2>Account Balance</h2>
+        <p>Your current balance is: <strong>${balance}</strong></p>
     </div>
 </body>
 </html>

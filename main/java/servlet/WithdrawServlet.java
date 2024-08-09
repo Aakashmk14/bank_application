@@ -1,4 +1,7 @@
 package servlet;
+
+import Dao.DatabaseUtil;
+import Dao.serviceDao;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -6,38 +9,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-@WebServlet("/withdrawServlet")
+@WebServlet("/WithdrawServlet")
 public class WithdrawServlet extends HttpServlet {
-
-
-	private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String accountNumber = request.getParameter("accountNumber");
-        String amountStr = request.getParameter("amount");
-        double amount = Double.parseDouble(amountStr);
+        Connection connection = DatabaseUtil.getConnection();
+        serviceDao dao = new serviceDao(connection);
         
+
+        String accountNo = (String) request.getSession().getAttribute("identifier");
+        double amount = Double.parseDouble(request.getParameter("amount"));
+
         try {
-          Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/akbankdata","root","321987");
-          PreparedStatement ps = con.prepareStatement("UPDATE customer SET initial_balance=initial_balance-? WHERE account_no=?");
-          ps.setDouble(1,amount);
-          ps.setString(2, accountNumber);
-          ps.executeUpdate();
-          
-          PreparedStatement psn= con.prepareStatement("INSERT INTO transactions (account_number, type, amount) VALUES (?, 'Withdraw', ?)");
-          psn.setString(1, accountNumber);
-          psn.setDouble(2, amount);
-          psn.executeUpdate();
-          
-          response.sendRedirect("withdraw.jsp?message=Withdrawl Successful!");
-          
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().println("Error during withdraw: " + e.getMessage());
+            boolean success = dao.withdrawMoney(accountNo, amount);
+            if (success) {
+                request.setAttribute("message", "Withdrawal successful!");
+            } else {
+                request.setAttribute("message", "Withdrawal failed. Please check the account number or amount.");
+            }
+            request.getRequestDispatcher("withdraw.jsp").forward(request, response);
+        } catch (SQLException e) {
+            throw new ServletException("Cannot withdraw money", e);
         }
     }
 }

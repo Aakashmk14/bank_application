@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,51 +5,101 @@
     <title>Admin Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: Georgia, serif;;
+            background-image: url('images/admin.jpg'); /* Replace with your background image URL */
+            background-size: cover;
             margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .dashboard-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-        }
-        .dashboard-container h2 {
-            margin-bottom: 20px;
-        }
-        .dashboard-button {
-            display: block;
-            width: 100%;
+        .container {
+            width: 70%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.50); /* White with transparency */
             padding: 10px;
-            margin: 10px 0;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            margin: 20px,30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            text-decoration: none;
-            font-size: 16px;
         }
-        .dashboard-button:hover {
-            background-color: #45a049;
+        .header {
+             /* Dark Lavender */
+            padding: 20px;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        .header a {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            text-decoration: none;
+            color: white;
+            background-color: #333;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header a:hover {
+            background-color: #555;
+        }
+        .menu {
+            margin: 20px 30px;
+            padding: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 15px;
+        
+        }
+         .menu a {
+            text-decoration: none;
+            color: white;
+            padding: 25px;
+            margin: 10px;
+            background-color: #25475e; /* Dark Lavender */
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.50);
+            flex: 1 1 20%;
+            text-align: center;
+        }
+        .menu a:hover {
+            background-color:#7fb6db; /* Slightly darker lavender */
+        }
+        .content {
+            padding: 20px;
+        }
+         .logout {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            text-decoration: none;
+            color: white;
+            padding: 10px 20px;
+            background-color: #f21313; /* Red */
+            border-radius: 8px;
+        }
+        .logout:hover {
+            background-color: #752815; /* Darker Red */
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <h2>Admin Dashboard</h2>
-        <a href="ViewAllCustomersServlet" class="dashboard-button">View and Delete Details</a>
-        <a href="adminnewregister.jsp" class="dashboard-button">Register New</a>
-        <a href="updatelog.jsp" class="dashboard-button">Update Details</a>
+    <div class="container">
+    <a href="login.jsp" class="logout">Logout</a>
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+        </div>
+        <div class="menu">
+            <a href="registerNewCustomer.jsp">Register New Customer</a>
+            <a href="viewCustomers">View Customers</a>
+        </div>
+        <div class="content">
+            <h2>Welcome, Admin!</h2>
+            <p>Use the menu above to manage customers.</p>
+        </div>
     </div>
 </body>
 </html>

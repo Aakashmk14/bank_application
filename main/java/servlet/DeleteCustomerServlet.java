@@ -2,7 +2,6 @@ package servlet;
 
 import Dao.DatabaseUtil;
 import Dao.serviceDao;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,30 +11,32 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/DepositServlet")
-public class DepositServlet extends HttpServlet {
+@WebServlet("/deleteCustomer")
+public class DeleteCustomerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accountNo = request.getParameter("accountNo");
-        double amount = Double.parseDouble(request.getParameter("amount"));
+
+        if (accountNo == null || accountNo.isEmpty()) {
+            response.sendRedirect("viewCustomers.jsp"); // Redirect if no account number is provided
+            return;
+        }
 
         Connection connection = DatabaseUtil.getConnection();
         serviceDao dao = new serviceDao(connection);
 
         try {
-            boolean success = dao.deposit(accountNo, amount);
-            if (success) {
-                request.setAttribute("message", "Deposit successful.");
+            boolean isDeleted = dao.deleteCustomer(accountNo);
+            if (isDeleted) {
+                response.sendRedirect("viewCustomers?message=Customer+deleted+successfully");
             } else {
-                request.setAttribute("message", "Deposit failed. Please check the account number and try again.");
+                response.sendRedirect("viewCustomers?message=Failed+to+delete+customer");
             }
         } catch (SQLException e) {
-            throw new ServletException("Cannot process deposit", e);
+            throw new ServletException("Cannot delete customer from DB", e);
         } finally {
             DatabaseUtil.closeConnection(connection);
         }
-
-        request.getRequestDispatcher("deposit.jsp").forward(request, response);
     }
 }
